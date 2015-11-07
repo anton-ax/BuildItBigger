@@ -38,12 +38,11 @@ public class JokeAsyncTask extends AsyncTask<JokeCallBack, String, String> {
         }
 
         try {
-            this.response = jokeApi.getJoke().execute().getData();
-            return response;
+            response = jokeApi.getJoke().execute().getData();
         } catch (IOException e) {
             Log.e("Fail", e.getMessage());
-            return null;
         }
+        return response;
     }
 
     @Override

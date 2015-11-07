@@ -13,20 +13,20 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         super(Application.class);
     }
 
+    /*
+        Check JokeAsyncTask
+     */
     @Override
     protected void runTest() throws Throwable {
         super.runTest();
         JokeAsyncTask jokeAsyncTask = new JokeAsyncTask();
         jokeAsyncTask.execute();
         String joke = "";
-
         try {
             joke = jokeAsyncTask.get(30, TimeUnit.SECONDS);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         assertTrue(joke.length() > 0);
     }
 }

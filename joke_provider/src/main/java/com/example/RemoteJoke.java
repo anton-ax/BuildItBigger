@@ -4,6 +4,7 @@ package com.example;
 import java.util.Random;
 
 public class RemoteJoke {
+
     private String[] jokesArray = new String[]{
             "Three tomatoes are walking down the street - a poppa tomato, a momma tomato, and a little baby tomato. \n" +
                     "\n" +
