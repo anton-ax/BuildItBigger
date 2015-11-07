@@ -26,10 +26,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (joke.length() > 0) {
-            assertTrue(true);
-        } else {
-            assertFalse(true);
-        }
+
+        assertTrue(joke.length() > 0);
     }
 }
