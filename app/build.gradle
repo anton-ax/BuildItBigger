@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    productFlavors {
+        free {
+            applicationId 'com.udacity.gradle.builditbigger.free'
+        }
+        paid {
+            applicationId 'com.udacity.gradle.builditbigger.paid'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(":jokes")
+    compile project(path: ':backend', configuration: 'android-endpoints')
+
+    // Added for AdMob
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    freeCompile 'com.google.android.gms:play-services:8.3.0'
+}
+
+// stop server if it's already running
+task initialStop {
+    dependsOn ":backend:appengineStop"
+}
+
+task startServer {
+    dependsOn ":backend:appengineRun"
+    mustRunAfter initialStop
+}
+
+task stopServer {
+    dependsOn ":backend:appengineStop"
+}
+
+task androidTests {
+    dependsOn ":app:connectedAndroidTest"
+    mustRunAfter startServer
+}
+
+// run this task to execute connected tests
+task runConnectedTest {
+    dependsOn initialStop, startServer, androidTests
+    finalizedBy stopServer
+}
